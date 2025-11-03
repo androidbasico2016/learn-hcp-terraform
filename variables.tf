@@ -9,3 +9,10 @@ variable "instance_type" {
   type        = string
   default     = "t2.micro"
 }
+
+variable "SINGLESTOREDB_API_KEY" {
+  description = "The EC2 instance's type."
+  type        = string
+  default     = "t2.micro"
+}
+
