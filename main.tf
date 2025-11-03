@@ -5,7 +5,7 @@ provider "aws" {
 provider "singlestoredb" {
   # Configuration options
 }
-
+/*
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -20,6 +20,7 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+*/
 
 /*module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
