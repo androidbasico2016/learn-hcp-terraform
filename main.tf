@@ -21,7 +21,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-module "vpc" {
+/*module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.19.0"
 
@@ -46,4 +46,29 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = var.instance_name
   }
+}*/
+
+data "singlestoredb_regions" "all" {}
+
+resource "singlestoredb_workspace_group" "example" {
+  name            = "testwsgroup"
+  firewall_ranges = ["0.0.0.0/0"] // Ensure restrictive ranges for production environments.
+  expires_at      = "2222-01-01T00:00:00Z"
+  region_id       = data.singlestoredb_regions.all.regions.0.id // Prefer specifying the explicit region ID in production environments as the list of regions may vary.
+}
+
+resource "singlestoredb_workspace" "this" {
+  name               = "testworkspace"
+  workspace_group_id = singlestoredb_workspace_group.example.id
+  size               = "S-00"
+  suspended          = false
+}
+
+output "endpoint" {
+  value = singlestoredb_workspace.this.endpoint
+}
+
+output "admin_password" {
+  value     = singlestoredb_workspace_group.example.admin_password
+  sensitive = true
 }
