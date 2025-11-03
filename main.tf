@@ -2,6 +2,10 @@ provider "aws" {
   region = "us-west-2"
 }
 
+provider "singlestoredb" {
+  # Configuration options
+}
+
 data "aws_availability_zones" "available" {
   state = "available"
 }
